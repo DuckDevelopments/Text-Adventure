@@ -92,6 +92,7 @@ namespace Text_Adventure
 
         public static void Save()
         {
+            //creates file but doesn't write any data to the file
             Print("Saving...");
             BinaryFormatter binform = new BinaryFormatter();
             string path = "saves/" + currentPlayer.id.ToString() + ".playersave";
@@ -101,6 +102,7 @@ namespace Text_Adventure
         }
         public static Player Load(out bool newP)
         {
+            //can't read save file because save has no data (save function issue)
             newP = false;
             Console.Clear();
             string[] paths = Directory.GetFiles("saves");
