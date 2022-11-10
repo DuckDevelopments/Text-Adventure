@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Text;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Text_Adventure
 {
@@ -13,7 +16,7 @@ namespace Text_Adventure
         public int id;
         public int coins = 0;
         public int level = 1;
-        public int xp;
+        public int xp = 0;
         public int health = 10;
         public int damage = 1;
         public int armorValue = 0;

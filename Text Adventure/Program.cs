@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Media;
+using System.Reflection.PortableExecutable;
 
 namespace Text_Adventure
 {
@@ -16,9 +17,9 @@ namespace Text_Adventure
         public static Random rand = new Random();
         static void Main(string[] args) 
         {
-            if(!Directory.Exists("Saves"))
+            if(!Directory.Exists("saves"))
             {
-                Directory.CreateDirectory("Saves");
+                Directory.CreateDirectory("saves");
             }
             currentPlayer = Load(out bool newP);
             if (newP)
@@ -37,6 +38,7 @@ namespace Text_Adventure
             Print(" Welcome to...\nText Adventure!");
             Print("Name: ");
             p.name = Console.ReadLine();
+            p.id = i;
             Print("Class: Mage, Archer, Warrior.");
             bool flag = false;
             while (flag == false)
@@ -92,7 +94,7 @@ namespace Text_Adventure
         {
             Print("Saving...");
             BinaryFormatter binform = new BinaryFormatter();
-            string path = "Saves/" + currentPlayer.id.ToString() + ".level";
+            string path = "saves/" + currentPlayer.id.ToString() + ".playersave";
             FileStream file = File.Open(path, FileMode.OpenOrCreate);
             binform.Serialize(file, currentPlayer);
             file.Close();
@@ -101,7 +103,7 @@ namespace Text_Adventure
         {
             newP = false;
             Console.Clear();
-            string[] paths = Directory.GetFiles("Saves");
+            string[] paths = Directory.GetFiles("saves");
             List<Player> players = new List<Player>();
             int idCount = 0;
 
@@ -132,7 +134,7 @@ namespace Text_Adventure
                 {
                     if(data[0] == "id")
                     {
-                        if(int.TryParse(data[1],out int id))
+                        if(int.TryParse(data[1], out int id))
                         {
                             foreach (Player player in players)
                             {
@@ -140,9 +142,10 @@ namespace Text_Adventure
                                 {
                                     return player;
                                 }
-                                Print("There is no player with that name!");
-                                Console.ReadKey();
+                                
                             }
+                            Print("There is no player with that name!");
+                            Console.ReadKey();
                         }
                         else
                         {
@@ -179,15 +182,15 @@ namespace Text_Adventure
         }
         public static void Print(string text, int speed = 48)
         {
-            SoundPlayer soundPlayer = new SoundPlayer("Sounds/type.wav");
-            soundPlayer.Load();
-            soundPlayer.PlayLooping();
+            //SoundPlayer soundPlayer = new SoundPlayer("Sounds/type.wav");
+            //soundPlayer.Load();
+            //soundPlayer.PlayLooping();
             foreach (char c in text)
             {
                 Console.Write(c);
                 System.Threading.Thread.Sleep(speed);
             }
-            soundPlayer.Stop();
+            //soundPlayer.Stop();
             Console.WriteLine();
         }
         public static void ProgressBar(string fillerChar, string backroundChar, decimal value, int size)
